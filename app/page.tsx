@@ -11,6 +11,7 @@ import remarkGfm from "remark-gfm";
 import Textarea from "react-textarea-autosize";
 import { toast } from "sonner";
 import Image from "next/image";
+import Link from "next/link";
 const socialMediaServices = [
   {
     name: "Trending Topics Assistant",
@@ -133,11 +134,20 @@ export default function Chat() {
 
   return (
     <main className="flex flex-col items-center justify-between pb-40">
-      <div className=" top-5  w-full justify-between px-5 ">
+      <div className="absolute top-5 flex w-full justify-between px-5 ">
+        <Link href="/" className=" p-4 ">
+          <Image
+            src={"/chatbot.svg"}
+            width={180}
+            height={180}
+            alt="logo AA Production Agency"
+          />
+        </Link>
         <a
           href="https://aa-production.vercel.app/"
           target="_blank"
-          className=" p-2 "
+          ref="noopener noreferrer"
+          className=" p-6 "
         >
           <Image
             src={"/logoAA.png"}
