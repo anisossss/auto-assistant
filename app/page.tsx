@@ -4,18 +4,89 @@ import { useRef } from "react";
 import { useChat } from "ai/react";
 import va from "@vercel/analytics";
 import clsx from "clsx";
-import { VercelIcon, GithubIcon, LoadingCircle, SendIcon } from "./icons";
+import { VercelIcon, LoadingCircle, SendIcon } from "./icons";
 import { Bot, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Textarea from "react-textarea-autosize";
 import { toast } from "sonner";
-
-const examples = [
-  "Create an assistant to retrieve knowledge and summarize some documents.",
-  "Develop an assistant to generate content for simple tasks",
-  "Build an assistant to analyze and summarize customer reviews from various online platforms for business insights.",
-  "Design an assistant to create personalized quiz.",
+import Image from "next/image";
+const socialMediaServices = [
+  {
+    name: "Trending Topics Assistant",
+    description:
+      "Generate content based on current events, trending hashtags, and popular conversations relevant to the user's industry or interests.",
+  },
+  {
+    name: "Brand Voice Tailor",
+    description:
+      "Craft posts that align with the user's established brand voice and messaging guidelines, ensuring consistency across all social media channels.",
+  },
+  {
+    name: "Interactive Content Creator",
+    description:
+      "Develop polls, quizzes, and interactive stories to engage with the user's audience and encourage participation.",
+  },
+  {
+    name: "User-Generated Content Aggregator",
+    description:
+      "Curate and repurpose user-generated content that mentions or tags the user's brand, giving credit to the original creators.",
+  },
+  {
+    name: "Visual Content Designer",
+    description:
+      "Assist in creating visually appealing graphics, photos, and videos tailored to the aesthetics of different social platforms.",
+  },
+  {
+    name: "Hashtag Strategy Developer",
+    description:
+      "Generate effective hashtags for posts to increase reach and engagement, customized for specific campaigns or general brand awareness.",
+  },
+  {
+    name: "Content Calendar Organizer",
+    description:
+      "Help plan and schedule posts with a content calendar that organizes themes, promotional cycles, and post timing for optimal engagement.",
+  },
+  {
+    name: "Engagement Booster",
+    description:
+      "Suggest content that prompts user interaction, such as questions, call-to-actions, or content that sparks discussion and community-building.",
+  },
+  {
+    name: "Analytics Reporter",
+    description:
+      "Summarize key metrics and insights from social media analytics to refine content strategy and identify successful types of posts.",
+  },
+  {
+    name: "Campaign Kick-starter",
+    description:
+      "Assist in developing content for new product launches, events, or campaigns with a focused message and call-to-action.",
+  },
+  {
+    name: "Influencer Collaboration Facilitator",
+    description:
+      "Generate ideas and outreach templates for collaborating with influencers and thought leaders in the user's niche.",
+  },
+  {
+    name: "Crisis Communication Aide",
+    description:
+      "Offer templates and advice on how to handle sensitive issues or crises that arise on social media professionally and tactfully.",
+  },
+  {
+    name: "Competitor Content Analyzer",
+    description:
+      "Gain insight by summarizing what competitors are posting, analyzing their engagement rates, and noting successful content strategies.",
+  },
+  {
+    name: "SEO Content Enhancer",
+    description:
+      "Incorporate trending keywords and SEO best practices into social media content to improve visibility in social searches.",
+  },
+  {
+    name: "Localization Specialist",
+    description:
+      "Adapt content for global audiences by considering cultural relevance and language preferences for different regions.",
+  },
 ];
 type Message = {
   id: string;
@@ -62,20 +133,18 @@ export default function Chat() {
 
   return (
     <main className="flex flex-col items-center justify-between pb-40">
-      <div className="absolute top-5 hidden w-full justify-between px-5 sm:flex">
+      <div className=" top-5  w-full justify-between px-5 ">
         <a
-          href="/deploy"
+          href="https://aa-production.vercel.app/"
           target="_blank"
-          className="rounded-lg p-2 transition-colors duration-200 hover:bg-stone-100 sm:bottom-auto"
+          className=" p-2 "
         >
-          <VercelIcon />
-        </a>
-        <a
-          href="/github"
-          target="_blank"
-          className="rounded-lg p-2 transition-colors duration-200 hover:bg-stone-100 sm:bottom-auto"
-        >
-          <GithubIcon />
+          <Image
+            src={"/logoAA.png"}
+            width={80}
+            height={80}
+            alt="logo AA Production Agency"
+          />
         </a>
       </div>
       {messages.length > 0 ? (
@@ -83,7 +152,7 @@ export default function Chat() {
           <div
             key={i}
             className={clsx(
-              "flex w-full items-center justify-center border-b border-gray-200 py-8",
+              "flex w-full items-center justify-center border-b border-gray-200 ",
               message.role === "user" ? "bg-white" : "bg-gray-100",
             )}
           >
@@ -100,6 +169,7 @@ export default function Chat() {
                 ) : message.role === "assistant" ? (
                   <Bot width={20} />
                 ) : (
+                  // Add a default component here, for example, a div
                   <div></div>
                 )}
               </div>
@@ -121,62 +191,24 @@ export default function Chat() {
           </div>
         ))
       ) : (
-        <div className="border-gray-200sm:mx-0 mx-5 mt-20 max-w-screen-md rounded-md border sm:w-full">
+        <div className="border-gray-200sm:mx-0 mx-5 max-w-screen-md rounded-md border sm:w-full">
           <div className="flex flex-col space-y-4 p-7 sm:p-10">
             <h1 className="text-lg font-semibold text-black">
-              Welcome to openGPT´!
+              Your Social Media Content Assistant
             </h1>
-            <p className="text-gray-500">
-              This is an{" "}
-              <a
-                href="https://github.com/admineral"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium underline underline-offset-4 transition-colors hover:text-black"
-              >
-                open-source
-              </a>{" "}
-              AI chatbot that uses{" "}
-              <a
-                href="https://platform.openai.com/docs/guides/gpt/function-calling"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium underline underline-offset-4 transition-colors hover:text-black"
-              >
-                OpenAI Functions
-              </a>{" "}
-              and{" "}
-              <a
-                href="https://sdk.vercel.ai/docs"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium underline underline-offset-4 transition-colors hover:text-black"
-              >
-                Vercel AI SDK
-              </a>{" "}
-              to interact with the{" "}
-              <a
-                href="https://platform.openai.com/docs/assistants/overview"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium underline underline-offset-4 transition-colors hover:text-black"
-              >
-                new Assistant API
-              </a>{" "}
-              with natural language.
-            </p>
           </div>
           <div className="flex flex-col space-y-4 border-t border-gray-200 bg-gray-50 p-7 sm:p-10">
-            {examples.map((example, i) => (
+            {socialMediaServices.map((service, i) => (
               <button
                 key={i}
-                className="rounded-md border border-gray-200 bg-white px-5 py-3 text-left text-sm text-gray-500 transition-all duration-75 hover:border-black hover:text-gray-700 active:bg-gray-50"
+                className="group relative rounded-md border border-gray-200 bg-white px-5 py-3 text-left text-sm transition-all duration-75 hover:border-black hover:bg-gray-100 active:bg-gray-50"
                 onClick={() => {
-                  setInput(example);
+                  setInput(service.name + " : " + service.description);
                   inputRef.current?.focus();
                 }}
+                title={service.description}
               >
-                {example}
+                <span className="font-bold">{service.name}</span>
               </button>
             ))}
           </div>
@@ -211,7 +243,7 @@ export default function Chat() {
               "absolute inset-y-0 right-3 my-auto flex h-8 w-8 items-center justify-center rounded-md transition-all",
               disabled
                 ? "cursor-not-allowed bg-white"
-                : "bg-green-500 hover:bg-green-600",
+                : "bg-violet-500 hover:bg-blue-800",
             )}
             disabled={disabled}
           >
@@ -227,35 +259,6 @@ export default function Chat() {
             )}
           </button>
         </form>
-        <p className="text-center text-xs text-gray-400">
-          Built with{" "}
-          <a
-            href="https://platform.openai.com/docs/guides/gpt/function-calling"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-black"
-          >
-            OpenAI Functions
-          </a>{" "}
-          and{" "}
-          <a
-            href="https://sdk.vercel.ai/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-black"
-          >
-            Vercel AI SDK
-          </a>
-          .{" "}
-          <a
-            href="https://github.com/admineral"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-black"
-          >
-            View the repo
-          </a>{" "}
-        </p>
       </div>
     </main>
   );
