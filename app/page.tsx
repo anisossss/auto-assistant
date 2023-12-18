@@ -13,9 +13,9 @@ import { toast } from "sonner";
 
 const examples = [
   "Create an assistant to retrieve knowledge and summarize some documents.",
-  "Develop an assistant to generate Python code for simple tasks",
+  "Develop an assistant to generate content for simple tasks",
   "Build an assistant to analyze and summarize customer reviews from various online platforms for business insights.",
-  "Design an assistant to create personalized workout plans based on user preferences, including exercises, duration, and intensity."
+  "Design an assistant to create personalized quiz.",
 ];
 type Message = {
   id: string;
@@ -26,32 +26,37 @@ type Message = {
 export default function Chat() {
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const handleFunctionResult = (result : any) => {
-    const newMessage: Message = { id: Date.now().toString(), role: 'function', content: result };
+  const handleFunctionResult = (result: any) => {
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      role: "function",
+      content: result,
+    };
     setMessages([...messages, newMessage]);
   };
 
-  const { messages, input,setMessages, setInput, handleSubmit, isLoading } = useChat({
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        va.track("Rate limited");
-        return;
-      } else {
-        va.track("Chat initiated");
-      }
-      
-      handleFunctionResult(response);
-      console.log("###########################");
-    },
-    
-    onError: (error) => {
-      va.track("Chat errored", {
-        input,
-        error: error.message,
-      });
-    },
-  });
+  const { messages, input, setMessages, setInput, handleSubmit, isLoading } =
+    useChat({
+      onResponse: (response) => {
+        if (response.status === 429) {
+          toast.error("You have reached your request limit for the day.");
+          va.track("Rate limited");
+          return;
+        } else {
+          va.track("Chat initiated");
+        }
+
+        handleFunctionResult(response);
+        console.log("###########################");
+      },
+
+      onError: (error) => {
+        va.track("Chat errored", {
+          input,
+          error: error.message,
+        });
+      },
+    });
 
   const disabled = isLoading || input.length === 0;
 
@@ -74,43 +79,44 @@ export default function Chat() {
         </a>
       </div>
       {messages.length > 0 ? (
-  messages.map((message, i) => (
-    <div
-      key={i}
-      className={clsx(
-        "flex w-full items-center justify-center border-b border-gray-200 py-8",
-        message.role === "user" ? "bg-white" : "bg-gray-100",
-      )}
-    >
-      <div className="flex w-full max-w-screen-md items-start space-x-4 px-5 sm:px-0">
-        <div
-          className={clsx(
-            "p-1.5 text-white",
-            message.role === "assistant" ? "bg-green-500" : "bg-black",
-            message.role === "function" ? "bg-blue-100" : ""
-          )}
-        >
-         {message.role === "user" ? (
-  <User width={20} />
-) : message.role === "assistant" ? (
-  <Bot width={20} />
-) : (
-  // Add a default component here, for example, a div
-  <div></div>
-)}
-        </div>
+        messages.map((message, i) => (
+          <div
+            key={i}
+            className={clsx(
+              "flex w-full items-center justify-center border-b border-gray-200 py-8",
+              message.role === "user" ? "bg-white" : "bg-gray-100",
+            )}
+          >
+            <div className="flex w-full max-w-screen-md items-start space-x-4 px-5 sm:px-0">
+              <div
+                className={clsx(
+                  "p-1.5 text-white",
+                  message.role === "assistant" ? "bg-green-500" : "bg-black",
+                  message.role === "function" ? "bg-blue-100" : "",
+                )}
+              >
+                {message.role === "user" ? (
+                  <User width={20} />
+                ) : message.role === "assistant" ? (
+                  <Bot width={20} />
+                ) : (
+                  <div></div>
+                )}
+              </div>
               <ReactMarkdown
-  className="prose mt-1 w-full break-words prose-p:leading-relaxed"
-  remarkPlugins={[remarkGfm]}
-  components={{
-    // open links in new tab
-    a: (props) => (
-      <a {...props} target="_blank" rel="noopener noreferrer" />
-    ),
-  }}
->
-  {typeof message.content === 'object' ? JSON.stringify(message.content) : message.content}
-</ReactMarkdown>
+                className="prose mt-1 w-full break-words prose-p:leading-relaxed"
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  // open links in new tab
+                  a: (props) => (
+                    <a {...props} target="_blank" rel="noopener noreferrer" />
+                  ),
+                }}
+              >
+                {typeof message.content === "object"
+                  ? JSON.stringify(message.content)
+                  : message.content}
+              </ReactMarkdown>
             </div>
           </div>
         ))
@@ -249,7 +255,6 @@ export default function Chat() {
           >
             View the repo
           </a>{" "}
-          
         </p>
       </div>
     </main>

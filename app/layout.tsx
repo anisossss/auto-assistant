@@ -7,9 +7,9 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "openGPTs – Assistant API using natural language",
+  title: "Your Social Media Content Assistant",
   description:
-    "Built with OpenAI Functions and Vercel AI SDK and OpenAI Assistant API",
+    "Increase your social media engagement with our content assistant. We help you find the best content to share on your social media channels.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
