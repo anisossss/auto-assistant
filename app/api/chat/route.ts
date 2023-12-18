@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
   const systemMessage = {
     role: "system",
-    content: "Du bist ein hilfreicher Assistent, der dazu ausgelegt ist, JSON-Daten auszugeben."
+    content: "You are a helpful assistant designed to output JSON data."
   };
   messages.push(systemMessage);
 

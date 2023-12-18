@@ -134,7 +134,7 @@ export default function Chat() {
 
   return (
     <main className="flex flex-col items-center justify-between pb-40">
-      <div className="absolute top-5 flex w-full justify-between px-5 ">
+      <div className=" flex w-full justify-between   ">
         <Link href="/" className=" p-4 ">
           <Image
             src={"/chatbot.svg"}
@@ -143,19 +143,6 @@ export default function Chat() {
             alt="logo AA Production Agency"
           />
         </Link>
-        <a
-          href="https://aa-production.vercel.app/"
-          target="_blank"
-          ref="noopener noreferrer"
-          className=" p-6 "
-        >
-          <Image
-            src={"/logoAA.png"}
-            width={80}
-            height={80}
-            alt="logo AA Production Agency"
-          />
-        </a>
       </div>
       {messages.length > 0 ? (
         messages.map((message, i) => (
@@ -166,10 +153,10 @@ export default function Chat() {
               message.role === "user" ? "bg-white" : "bg-gray-100",
             )}
           >
-            <div className="flex w-full max-w-screen-md items-start space-x-4 px-5 sm:px-0">
+            <div className="flex w-full max-w-screen-md items-start space-x-4 px-8 pt-3 sm:px-0">
               <div
                 className={clsx(
-                  "p-1.5 text-white",
+                  "p-3 text-white",
                   message.role === "assistant" ? "bg-green-500" : "bg-black",
                   message.role === "function" ? "bg-blue-100" : "",
                 )}
@@ -180,11 +167,13 @@ export default function Chat() {
                   <Bot width={20} />
                 ) : (
                   // Add a default component here, for example, a div
-                  <div></div>
+                  <div>
+                    <br></br>
+                  </div>
                 )}
               </div>
               <ReactMarkdown
-                className="prose mt-1 w-full break-words prose-p:leading-relaxed"
+                className="prose mb-6 mt-1 w-full break-words prose-p:leading-relaxed"
                 remarkPlugins={[remarkGfm]}
                 components={{
                   // open links in new tab
